@@ -31,6 +31,17 @@ export default function Todos() {
   //     status: false,
   //   },
   // ];
+  const [inputValue, setInputValue] = useState("");
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && inputValue.trim() !== "") {
+      setTodos((prevTodo) => [
+        ...prevTodo,
+        { title: inputValue, status: false },
+      ]);
+      setInputValue("");
+    }
+  };
 
   return (
     <div>
@@ -47,7 +58,9 @@ export default function Todos() {
               type="text"
               placeholder="What needs to be done today?"
               className="w-full px-2 py-3 border rounded outline-none border-grey-600"
-              onChange={(e) => setTodos(e.target.value)}
+              value={inputValue}
+              onChange={(event) => setInputValue(event.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </div>
           <TodoList>
