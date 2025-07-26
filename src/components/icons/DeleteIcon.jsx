@@ -1,6 +1,6 @@
-export default function DeleteIcon() {
+export default function DeleteIcon({ onClick }) {
   return (
-    <div>
+    <div onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="w-5 h-5 text-red-700"

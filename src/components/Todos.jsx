@@ -1,20 +1,24 @@
 import TodoList from "./TodoLists";
 import TodoListItem from "./TodoListItem";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Todos() {
   const [todos, setTodos] = useState([
     {
       title: " Tailwind CSS To DO App List 1",
       status: false,
+      id: uuidv4(),
     },
     {
       title: "Tailwind CSS To DO App List 2",
       status: true,
+      id: uuidv4(),
     },
     {
       title: "Tailwind CSS To DO App List 3",
       status: false,
+      id: uuidv4(),
     },
   ]);
   // const todos = [
@@ -37,10 +41,16 @@ export default function Todos() {
     if (e.key === "Enter" && inputValue.trim() !== "") {
       setTodos((prevTodo) => [
         ...prevTodo,
-        { title: inputValue, status: false },
+        { title: inputValue, status: false, id: uuidv4() },
       ]);
       setInputValue("");
     }
+  };
+
+  const deleteTodoHandler = (id) => {
+    const updatedTodos = todos.filter((item) => item.id !== id);
+    setTodos(updatedTodos);
+    console.log("After delete:", updatedTodos);
   };
 
   return (
@@ -64,8 +74,12 @@ export default function Todos() {
             />
           </div>
           <TodoList>
-            {todos.map((todo, index) => (
-              <TodoListItem todo={todo} key={index} />
+            {todos.map((todo) => (
+              <TodoListItem
+                todo={todo}
+                key={todo.id}
+                onDelete={deleteTodoHandler}
+              />
             ))}
           </TodoList>
         </div>
