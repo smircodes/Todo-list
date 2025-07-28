@@ -21,20 +21,7 @@ export default function Todos() {
       id: uuidv4(),
     },
   ]);
-  // const todos = [
-  //   {
-  //     title: " Tailwind CSS To DO App List 1",
-  //     status: false,
-  //   },
-  //   {
-  //     title: "Tailwind CSS To DO App List 2",
-  //     status: true,
-  //   },
-  //   {
-  //     title: "Tailwind CSS To DO App List 3",
-  //     status: false,
-  //   },
-  // ];
+
   const [inputValue, setInputValue] = useState("");
 
   const handleKeyDown = (e) => {
@@ -50,7 +37,30 @@ export default function Todos() {
   const deleteTodoHandler = (id) => {
     const updatedTodos = todos.filter((item) => item.id !== id);
     setTodos(updatedTodos);
-    console.log("After delete:", updatedTodos);
+    // console.log("After delete:", updatedTodos);
+  };
+
+  const toggleTodoHandler = (id) => {
+    const toggledTodos = todos.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          status: !item.status,
+        };
+      }
+      return item;
+    });
+    setTodos(toggledTodos);
+  };
+
+  const editTodoTitleHandler = (todo, newTitle) => {
+    const editedTodo = todos.map((item) => {
+      if (item.id === todo.id) {
+        item.title = newTitle;
+      }
+      return item;
+    });
+    setTodos(editedTodo);
   };
 
   return (
@@ -79,6 +89,8 @@ export default function Todos() {
                 todo={todo}
                 key={todo.id}
                 onDelete={deleteTodoHandler}
+                onToggle={toggleTodoHandler}
+                onEdited={editTodoTitleHandler}
               />
             ))}
           </TodoList>
